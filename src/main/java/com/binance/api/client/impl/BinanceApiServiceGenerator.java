@@ -73,6 +73,8 @@ public class BinanceApiServiceGenerator {
                 return response.body();
             } else {
                 BinanceApiError apiError = getBinanceApiError(response);
+                apiError.setCode(response.code());
+                apiError.setResponseHeaders(response.headers().toMultimap());
                 throw new BinanceApiException(apiError);
             }
         } catch (IOException e) {
