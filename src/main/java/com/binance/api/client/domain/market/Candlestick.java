@@ -12,7 +12,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 @JsonFormat(shape = JsonFormat.Shape.ARRAY)
 @JsonPropertyOrder()
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Candlestick {
+public class Candlestick implements Cloneable{
 
   private Long openTime;
 
