@@ -24,6 +24,7 @@ import com.binance.api.client.domain.market.CandlestickInterval;
 import com.binance.api.client.domain.market.OrderBook;
 import com.binance.api.client.domain.market.TickerPrice;
 import com.binance.api.client.domain.market.TickerStatistics;
+import retrofit2.Response;
 
 import java.util.List;
 
@@ -117,6 +118,8 @@ public interface BinanceApiRestClient {
    * @return a candlestick bar for the given symbol and interval
    */
   List<Candlestick> getCandlestickBars(String symbol, CandlestickInterval interval, Integer limit, Long startTime, Long endTime);
+
+  Response<List<Candlestick>> getCandlestickBarsFullResponse(String symbol, CandlestickInterval interval, Integer limit, Long startTime, Long endTime);
 
   /**
    * Kline/candlestick bars for a symbol. Klines are uniquely identified by their open time.

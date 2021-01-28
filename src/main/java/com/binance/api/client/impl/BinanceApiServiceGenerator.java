@@ -82,6 +82,22 @@ public class BinanceApiServiceGenerator {
         }
     }
 
+    public static <T> Response<T> executeSyncFull(Call<T> call) {
+        try {
+            Response<T> response = call.execute();
+            if (response.isSuccessful()) {
+                return response;
+            } else {
+                BinanceApiError apiError = getBinanceApiError(response);
+                apiError.setCode(response.code());
+                apiError.setResponseHeaders(response.headers().toMultimap());
+                throw new BinanceApiException(apiError);
+            }
+        } catch (IOException e) {
+            throw new BinanceApiException(e);
+        }
+    }
+
     /**
      * Extracts and converts the response error body into an object.
      */

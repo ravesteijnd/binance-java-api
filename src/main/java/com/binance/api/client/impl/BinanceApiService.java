@@ -13,6 +13,7 @@ import com.binance.api.client.domain.general.ExchangeInfo;
 import com.binance.api.client.domain.general.ServerTime;
 import com.binance.api.client.domain.market.*;
 import retrofit2.Call;
+import retrofit2.Response;
 import retrofit2.http.*;
 
 import java.util.List;
@@ -55,6 +56,10 @@ public interface BinanceApiService {
     @GET("/api/v1/klines")
     Call<List<Candlestick>> getCandlestickBars(@Query("symbol") String symbol, @Query("interval") String interval, @Query("limit") Integer limit,
                                                @Query("startTime") Long startTime, @Query("endTime") Long endTime);
+
+    @GET("/api/v1/klines")
+    Call<List<Candlestick>> getCandlestickBarsFullResponse(@Query("symbol") String symbol, @Query("interval") String interval, @Query("limit") Integer limit,
+                                            @Query("startTime") Long startTime, @Query("endTime") Long endTime);
 
     @GET("/api/v1/ticker/24hr")
     Call<TickerStatistics> get24HrPriceStatistics(@Query("symbol") String symbol);

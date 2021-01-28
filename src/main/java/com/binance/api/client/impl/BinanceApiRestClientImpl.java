@@ -9,11 +9,13 @@ import com.binance.api.client.domain.general.Asset;
 import com.binance.api.client.domain.general.ExchangeInfo;
 import com.binance.api.client.domain.market.*;
 import retrofit2.Call;
+import retrofit2.Response;
 
 import java.util.List;
 
 import static com.binance.api.client.impl.BinanceApiServiceGenerator.createService;
 import static com.binance.api.client.impl.BinanceApiServiceGenerator.executeSync;
+import static com.binance.api.client.impl.BinanceApiServiceGenerator.executeSyncFull;
 
 /**
  * Implementation of Binance's REST API using Retrofit with synchronous/blocking method calls.
@@ -79,6 +81,12 @@ public class BinanceApiRestClientImpl implements BinanceApiRestClient {
   public List<Candlestick> getCandlestickBars(String symbol, CandlestickInterval interval, Integer limit, Long startTime, Long endTime) {
     return executeSync(binanceApiService.getCandlestickBars(symbol, interval.getIntervalId(), limit, startTime, endTime));
   }
+
+  @Override
+  public Response<List<Candlestick>> getCandlestickBarsFullResponse(String symbol, CandlestickInterval interval, Integer limit, Long startTime, Long endTime) {
+    return executeSyncFull(binanceApiService.getCandlestickBarsFullResponse(symbol, interval.getIntervalId(), limit, startTime, endTime));
+  }
+
 
   @Override
   public List<Candlestick> getCandlestickBars(String symbol, CandlestickInterval interval) {
