@@ -140,4 +140,21 @@ public class Candlestick {
         .append("takerBuyQuoteAssetVolume", takerBuyQuoteAssetVolume)
         .toString();
   }
+
+  @Override
+  public Candlestick clone() throws CloneNotSupportedException {
+    Candlestick clone = (Candlestick) super.clone();
+    clone.setOpenTime(openTime);
+    clone.setOpen(open);
+    clone.setHigh(high);
+    clone.setLow(low);
+    clone.setClose(close);
+    clone.setVolume(volume);
+    clone.setCloseTime(closeTime);
+    clone.setQuoteAssetVolume(quoteAssetVolume);
+    clone.setNumberOfTrades(numberOfTrades);
+    clone.setTakerBuyBaseAssetVolume(takerBuyBaseAssetVolume);
+    clone.setQuoteAssetVolume(takerBuyQuoteAssetVolume);
+    return clone;
+  }
 }
