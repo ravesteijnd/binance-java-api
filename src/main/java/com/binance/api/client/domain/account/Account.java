@@ -4,6 +4,7 @@ import com.binance.api.client.constant.BinanceApiConstants;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -56,6 +57,11 @@ public class Account {
    * List of asset balances of this account.
    */
   private List<AssetBalance> balances;
+
+  /**
+   * Lock for synchronizing mutations on balances
+   */
+  private Object balanceLock = new Object();
 
   public int getMakerCommission() {
     return makerCommission;
@@ -122,11 +128,26 @@ public class Account {
   }
 
   public List<AssetBalance> getBalances() {
-    return balances;
+    synchronized (balanceLock) {
+      return balances;
+    }
   }
 
+  public List<AssetBalance> cloneBalances() throws CloneNotSupportedException {
+    synchronized (balanceLock) {
+      final ArrayList<AssetBalance> clone = new ArrayList<>();
+      for (AssetBalance balance : balances) {
+        clone.add(balance.clone());
+      }
+      return clone;
+    }
+  }
+
+
   public void setBalances(List<AssetBalance> balances) {
-    this.balances = balances;
+    synchronized (balanceLock) {
+      this.balances = balances;
+    }
   }
 
   /**
@@ -136,16 +157,18 @@ public class Account {
    * @return an asset balance for the given symbol which can be 0 in case the symbol has no balance in the account
    */
   public AssetBalance getAssetBalance(String symbol) {
-    for (AssetBalance assetBalance : balances) {
-      if (symbol.equals(assetBalance.getAsset())) {
-        return assetBalance;
+    synchronized (balanceLock) {
+      for (AssetBalance assetBalance : balances) {
+        if (symbol.equals(assetBalance.getAsset())) {
+          return assetBalance;
+        }
       }
+      AssetBalance emptyBalance = new AssetBalance();
+      emptyBalance.setAsset(symbol);
+      emptyBalance.setFree("0");
+      emptyBalance.setLocked("0");
+      return emptyBalance;
     }
-    AssetBalance emptyBalance = new AssetBalance();
-    emptyBalance.setAsset(symbol);
-    emptyBalance.setFree("0");
-    emptyBalance.setLocked("0");
-    return emptyBalance;
   }
 
   @Override
