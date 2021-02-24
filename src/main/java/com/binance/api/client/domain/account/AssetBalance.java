@@ -10,7 +10,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  * @see Account
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class AssetBalance {
+public class AssetBalance implements Cloneable{
 
   /**
    * Asset symbol.
@@ -58,5 +58,14 @@ public class AssetBalance {
         .append("free", free)
         .append("locked", locked)
         .toString();
+  }
+
+  @Override
+  protected AssetBalance clone() throws CloneNotSupportedException {
+    AssetBalance assetBalance = (AssetBalance) super.clone();
+    assetBalance.asset = asset;
+    assetBalance.free = free;
+    assetBalance.locked = locked;
+    return assetBalance;
   }
 }
