@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Symbol information (base/quote).
@@ -127,5 +128,18 @@ public class SymbolInfo {
         .append("icebergAllowed", icebergAllowed)
         .append("filters", filters)
         .toString();
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    SymbolInfo that = (SymbolInfo) o;
+    return symbol.equals(that.symbol);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(symbol);
   }
 }
