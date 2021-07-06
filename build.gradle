@@ -21,7 +21,7 @@ dependencies {
 }
 
 group = 'com.binance.api'
-version = '1.0.2-ravesteijnd'
+version = '1.0.3-ravesteijnd'
 sourceCompatibility = '1.8'
 
 publishing {
